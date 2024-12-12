@@ -1,0 +1,26 @@
+App As appinfo:
+    BackEnabled: =true
+    OnStart: |-
+        =ClearCollect(colGridTemplate,
+            {id:1,snake:false,apple:true,direction:0}
+        );
+        ForAll(Sequence(149,2,1),
+            Patch(colGridTemplate,{id:ThisRecord.Value},{
+                snake:false,
+                apple:false,
+                direction:0,
+                id:ThisRecord.Value
+                }
+            )
+        );
+        ClearCollect(colGrid,colGridTemplate);
+        Set(vsTopBard,"Level: 0    Click 0 to Start");
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

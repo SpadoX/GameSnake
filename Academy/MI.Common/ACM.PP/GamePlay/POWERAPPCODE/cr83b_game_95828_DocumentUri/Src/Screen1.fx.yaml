@@ -1,0 +1,257 @@
+Screen1 As screen:
+
+    Image3 As image:
+        DisabledFill: =RGBA(255, 255, 255, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =387
+        Image: =tastierino
+        TabIndex: =1 
+        Width: =639
+        X: =1
+        Y: =749
+        ZIndex: =1
+
+    gaBoard As gallery.galleryVertical:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        DelayItemLoading: =true
+        Fill: =RGBA(241, 244, 249, 1)
+        Height: =610
+        Items: =colGrid
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplatePadding: =0
+        TemplateSize: =40
+        Width: =App.Width - Rectangle4.Width - Rectangle3.Width
+        WrapCount: =40
+        X: =Rectangle3.Width
+        Y: =laTopBar.Height
+        ZIndex: =2
+
+        rePixel As rectangle:
+            Fill: =If(ThisItem.snake,Color.Black,RGBA(187, 221, 140, 1))
+            Height: =40
+            Width: =58
+            ZIndex: =1
+
+        Star1 As star:
+            Height: =rePixel.Height
+            Visible: =ThisItem.apple
+            Width: =40
+            ZIndex: =3
+
+    gaNumPad As gallery.galleryVertical:
+        DelayItemLoading: =true
+        Height: =242
+        Items: =Sequence(9,1)
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        TemplatePadding: =2
+        TemplateSize: =70
+        Width: =313
+        WrapCount: =3
+        X: =121
+        Y: =765
+        ZIndex: =3
+
+        laNum As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =50
+            HoverFill: |
+                =RGBA(237, 237, 237, 0.4)
+            OnSelect: |
+                =Switch(ThisItem.Value,
+                    2,Set(viDirection,-10),
+                    4,Set(viDirection,-1),
+                    6,Set(viDirection,1),
+                    8,Set(viDirection,10)
+                );
+                Set(bluStart, true)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            PressedFill: =RGBA(237, 237, 237, 0.4)
+            Size: =80
+            TabIndex: =1
+            Text: =
+            Width: =45
+            X: =72
+            Y: =24
+            ZIndex: =1
+
+    buStart As button:
+        Color: =RGBA(0, 0, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =74
+        HoverFill: =RGBA(237, 237, 237, 0.4)
+        OnSelect: |
+            =Set(viDirection,10);
+            Set(viApples,0);
+            ClearCollect(colSnake,[55,45,35]);
+            ClearCollect(colGrid,colGridTemplate);
+            ForAll(colSnake,
+                Patch(colGrid,{id:ThisRecord.Value},{
+                    snake:true,
+                    direction:viDirection
+                    }
+                )
+            );      
+            Set(vbStart,true);
+        PressedFill: =RGBA(237, 237, 237, 0.4)
+        Size: =24
+        Text: =
+        Width: =99
+        X: =273
+        Y: =1007
+        ZIndex: =4
+
+    tiLife As timer:
+        AutoStart: =true
+        Duration: =100
+        Height: =61
+        OnTimerEnd: |-
+            =//// copy of snake so can check if overflowed and deletes last square of snake
+            If(vbStart,
+                Set(vsTopBard,"Level: "& CountRows(colSnake)-2);
+                ClearCollect(colSnakePast,colSnake);
+                Set(viApples,viApples+1);
+                Set(viDirectionNow,viDirection);
+                ForAll(Sequence(CountRows(colSnake)) As item,
+                    With(
+                        {
+                            snake:Index(colSnake,item.Value)
+                        },
+                        If(item.Value=1,
+                            Patch(colSnake,snake,{Value:snake.Value+viDirectionNow});
+                        ,
+                            Patch(colSnake,snake,{Value:snake.Value+Index(colGrid,snake.Value).direction});
+                        )  
+                    )  
+                );
+                If(!IsEmpty(Filter(colSnakePast,Value=First(colSnake).Value)),
+                    Set(vbStart,false);
+                    Set(vsTopBard,"Level: "& CountRows(colSnake)-2&"      Gameover");
+                    Notify("Game Over",NotificationType.Warning,1000);
+                ,
+                    ////fix over flows
+                    ForAll(Sequence(CountRows(colSnake)) As item,
+                        With(
+                            {
+                                snake:Index(colSnake,item.Value),
+                                pastSnake:Index(colSnakePast,item.Value).Value
+                            },
+                        
+                            If(
+                                snake.Value>150, Patch(colSnake,snake,{Value:snake.Value-150}), // da 100 a 150   
+                                snake.Value<1, Patch(colSnake,snake,{Value:snake.Value+150}),// da 100 a 150
+                                Mod(snake.Value-1,10)=0 And Mod(pastSnake,10)=0,Patch(colSnake,snake,{Value:snake.Value-10}),
+                                Mod(snake.Value,10)=0 And Mod(pastSnake-1,10)=0, Patch(colSnake,snake,{Value:snake.Value+10})
+                            );  
+                                
+                        )
+                    );
+                    ////move snake
+                    ForAll(colSnake,    
+                        If(ThisRecord.Value=First(colSnake).Value Or ThisRecord.Value=Index(colSnake,2).Value,
+                            Patch(colGrid,{id:ThisRecord.Value},{
+                                direction:viDirectionNow,
+                                snake:true
+                                }
+                            )
+                        ,
+                            Patch(colGrid,{id:ThisRecord.Value},{
+                                snake:true
+                                }
+                            )
+                        )            
+                    );
+            
+                    With(
+                        {
+                            head:Index(colGrid,First(colSnake).Value).id,
+                            tail:Last(colSnakePast).Value
+                        },
+                        If(Index(colGrid,head).apple Or CountRows(colSnake)<CountRows(colSnakePast),
+                            Patch(colGrid,{id:head},
+                                {
+                                    apple:false
+                                }
+                            );
+                            Collect(colSnake,tail);
+                        ,
+                            ////set grid square to remove snake
+                            Patch(colGrid,{id:tail},
+                                {
+                                    snake:false
+                                }
+                            );
+                        );
+                    );
+                    ////create apples
+                    If(Mod(viApples,24)=0,
+                        ForAll(colApples,
+                            Patch(colGrid,Index(colGrid,ThisRecord.Value),{apple:false})
+                        );
+                        ClearCollect(colApples,[RandBetween(1,150),RandBetween(1,150),RandBetween(1,150)]);//modificato da 100 a 150
+                        ForAll(colApples,
+                            If(!Index(colGrid,ThisRecord.Value).snake,
+                                Patch(colGrid,Index(colGrid,ThisRecord.Value),{apple:true})
+                            )
+                        )
+                    );
+                    //// error catcher
+                    If(CountRows(Filter(colGrid,snake))<>CountRows(colSnake),
+                        ForAll(colGrid As item,
+                            If(IsEmpty(Filter(colSnake,Value=item.id)),
+                                Patch(colGrid,item,{snake:false})
+                            )
+                        )
+                    )
+                )
+            )
+        Repeat: =true
+        Reset: =true
+        Start: =vbStart
+        Visible: =false
+        Width: =158
+        X: =121
+        Y: =1052
+        ZIndex: =5
+
+    laTopBar As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(0, 134, 208, 1)
+        Height: =110
+        Size: =21
+        Text: =vsTopBard
+        Width: =App.Width
+        ZIndex: =6
+
+    Rectangle3 As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        Height: =1136
+        Width: =24
+        ZIndex: =7
+
+    Rectangle4 As rectangle:
+        Height: =1136
+        Width: =21
+        X: =619
+        ZIndex: =8
+
+    Rectangle5 As rectangle:
+        Height: =34
+        Width: =640
+        Y: =1101
+        ZIndex: =9
+
+    Rectangle1 As rectangle:
+        Height: =21
+        Width: =638
+        Y: =718
+        ZIndex: =10
+

@@ -1,0 +1,116 @@
+{
+  "ComponentIndexes": {},
+  "ControlUniqueGuids": {},
+  "ControlUniqueIds": {
+    "App": 1,
+    "buStart": 13,
+    "gaBoard": 6,
+    "galleryTemplate1": 7,
+    "galleryTemplate2": 11,
+    "gaNumPad": 10,
+    "Host": 3,
+    "Image3": 5,
+    "laNum": 12,
+    "laTopBar": 15,
+    "Rectangle1": 19,
+    "Rectangle3": 16,
+    "Rectangle4": 17,
+    "Rectangle5": 18,
+    "rePixel": 8,
+    "Screen1": 4,
+    "Star1": 9,
+    "tiLife": 14
+  },
+  "FunctionParamsInvariantScripts": {},
+  "FunctionParamsInvariantScriptsOnInstances": {},
+  "HeaderLastSavedDateTimeUTC": "12/11/2024 16:50:53",
+  "IsLegacyComponentAllowGlobalScopeCase": false,
+  "LocalConnectionIDReferences": {},
+  "LocalDatabaseReferencesAsEmpty": true,
+  "LocalResourceFileNames": {
+    "tastierino": "bb7fed90-98c1-48b8-8867-548827964561.jpg"
+  },
+  "LocalResourceRootPaths": {
+    "tastierino": "https://docserverpwaprodneu.blob.core.windows.net/8af0e1fa-ea82-4b08-9e85-10cf9d9d441a-1/resource/fe261445-4eb0-40ec-a74a-6fcccb0d35f9.jpg?skoid=58690ece-ec83-4ce2-9ce8-883d4d6a54ee&sktid=975f013f-7f24-47e8-a7d3-abc4752bf346&skt=2024-12-11T14%3A54%3A32Z&ske=2024-12-12T15%3A09%3A32Z&sks=b&skv=2023-01-03&sv=2023-01-03&spr=https&se=2024-12-12T15%3A09%3A32Z&sr=b&sp=r&sig=OuBRBpozGLrVVQgVN7nsSkbVkp3TUcrp2YNfBerl8KU%3D"
+  },
+  "OrderComponentMetadata": {},
+  "OrderComponentTemplate": {},
+  "OrderDataSource": {
+    "CustomGallerySample": 0
+  },
+  "OrderGroupControls": {},
+  "OrderPcfTemplate": {},
+  "OrderTemplate": {},
+  "OrderXMLTemplate": {
+    "button": 5,
+    "gallery": 2,
+    "image": 4,
+    "label": 0,
+    "rectangle": 1,
+    "star": 3,
+    "timer": 6
+  },
+  "OverridablePropertiesEntry": {
+    "App": {},
+    "buStart": {},
+    "gaBoard": {},
+    "galleryTemplate1": {},
+    "galleryTemplate2": {},
+    "gaNumPad": {},
+    "Host": {},
+    "Image3": {},
+    "laNum": {},
+    "laTopBar": {},
+    "Rectangle1": {},
+    "Rectangle3": {},
+    "Rectangle4": {},
+    "Rectangle5": {},
+    "rePixel": {},
+    "Screen1": {},
+    "Star1": {},
+    "tiLife": {}
+  },
+  "PCFDynamicSchemaForIRRetrievalEntry": {},
+  "PCFTemplateEntry": {},
+  "PublishOrderIndices": {
+    "App": 0,
+    "buStart": 12,
+    "gaBoard": 3,
+    "galleryTemplate1": 4,
+    "galleryTemplate2": 10,
+    "gaNumPad": 9,
+    "Host": 0,
+    "Image3": 8,
+    "laNum": 11,
+    "laTopBar": 0,
+    "Rectangle1": 7,
+    "Rectangle3": 1,
+    "Rectangle4": 2,
+    "Rectangle5": 14,
+    "rePixel": 5,
+    "Screen1": 0,
+    "Star1": 6,
+    "tiLife": 13
+  },
+  "ResourcesJsonIndices": {
+    "Image-SampleImage": 0,
+    "Image-tastierino": 1
+  },
+  "RuleScreenIdWithoutScreen": {},
+  "TemplateVersions": {},
+  "VolatileProperties": {
+    "AnalysisLoadTime": 0.078541799999999995,
+    "ControlCount": {
+      "button": 1,
+      "gallery": 2,
+      "galleryTemplate": 2,
+      "icon": 2,
+      "image": 1,
+      "label": 2,
+      "rectangle": 4,
+      "star": 1,
+      "timer": 1
+    }
+  },
+  "WasLocalDatabaseReferencesEmpty": true
+}
